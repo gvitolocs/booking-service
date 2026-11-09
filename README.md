@@ -5,7 +5,7 @@ planted weakness, and each weakness is found by a different testing technique.
 We use it to teach SAST, SCA, DAST, IAST and fuzzing in one 90-minute lecture.
 
 > ⚠️ For teaching only. Never deploy this. Run it only on your own machine.
-
+k
 ## What is in here
 
 | File | Planted bug | Found by |

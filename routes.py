@@ -17,7 +17,7 @@ def add_route(data):
     """
     name = data["name"]
     value = data["filter"]["value"]
-    result = eval(value)  # <-- Bandit flags this (B307, use of eval)
+    result = int(value)  # <-- Bandit flags this (B307, use of eval)
     ROUTES[name] = result
     return name
 

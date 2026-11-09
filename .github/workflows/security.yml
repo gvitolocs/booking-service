@@ -1,0 +1,29 @@
+name: security
+
+# Run the security checks on every push and every pull request.
+on: [push, pull_request]
+
+jobs:
+  security-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the scanners
+        run: pip install bandit pip-audit
+
+      # SAST gate: -ll makes Bandit count MEDIUM-and-above issues (so the
+      # Medium-rated eval RCE is caught too), and it exits non-zero when it
+      # finds one, which fails the job.
+      - name: SAST (Bandit) - fail on medium severity and above
+        run: bandit -r . -ll -x ./.venv
+
+      # SCA gate: pip-audit exits non-zero if any dependency has a known CVE.
+      - name: SCA (pip-audit) - fail on known CVEs
+        run: pip-audit -r requirements.txt
